@@ -1,25 +1,82 @@
 import 'package:flutter/material.dart';
-
 /*
-  * Widget
-  - Material widget과 Cupertino widget
-    : 위젯을 사용하려면 반드시 2개 중 하나를 사용해야 그 안에 있는 디자인을 기반으로 위젯이
-      (미리 만들어 놓은 위젯들을 가져다 사용함. 컴포넌트(or 라이브러리)가 들어있다 생각하면 됨
-      위젯들이 정상 작동하려면 반드시 넣어야 됨.
-    1. Material widget : 안드로이드용 widget
-    2. Cupertino widget : iPhone영 widget
-    > flutter에서 안드로이드 폰을 만들어도 Cupertino widget 사용 가능. 서로 교차 사용 가능
+* Flexible() 위젯 : flex와 비슷
+  : 전체에서 ?% 자리차지 같은 것 사용할 때 편리
+    - Row(), Column() 에서 사용
 
-    * 기본적으로 많이 사용하는 widget
-      1. Text() : 글씨 넣기 -> Text('글씨')
-      2. Image() : 이미지 넣기 -> Image.asset('이미지명')
-      3. Icon() : 아이콘 넣기 -> Icon(Icon.??)
-      4. Container : 박스 넣기
+* Expanded() : 나머지 부분 다 자리차지
  */
-
 void main() {
   runApp(const MyApp());
 }
+
+/*
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xfff3edf7),
+          title: Text('강남역'),
+          actions: [
+            Icon(Icons.search),
+            SizedBox(width: 10),
+            Icon(Icons.menu),
+            SizedBox(width: 10),
+            Icon(Icons.notification_add),
+            Padding(padding: EdgeInsets.only(right: 16))
+          ],  // 오른쪽
+        ),
+        body: Row(  // Column도 사용 가능
+          children: [
+            // Flexible(child: Container(color: Colors.blueGrey), flex:3),
+            // Flexible(child: Container(color: Colors.lightGreen), flex: 7)
+
+            Flexible(child: Container(color: Colors.lime), flex: 3),
+            Flexible(child: Container(color: Colors.amberAccent), flex: 3),
+            Flexible(child: Container(color: Colors.lightBlueAccent), flex: 3),
+          ],
+        ),
+      ),
+    );
+  }
+}
+*/
+
+/*
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xfff3edf7),
+          title: Text('강남역'),
+          actions: [
+            Icon(Icons.search),
+            SizedBox(width: 10),
+            Icon(Icons.menu),
+            SizedBox(width: 10),
+            Icon(Icons.notification_add),
+            Padding(padding: EdgeInsets.only(right: 16))
+          ],  // 오른쪽
+        ),
+        body: Row(
+          children: [
+            Expanded(child: Container(color: Colors.lightBlue,)),
+            Container(width: 100, color: Colors.amber,)
+          ],
+        ),
+      ),
+    );
+  }
+}
+*/
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -27,19 +84,50 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // 첫 번째 화면 설정. 기본적으로 앱이 시작되면 이 화면이 가장 먼저 보임
-      // home: Text('글씨'),
-      // home: Icon(Icons.star),
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xfff3edf7),
+          title: Text('강남역'),
+          actions: [
+            Icon(Icons.search),
+            SizedBox(width: 10),
+            Icon(Icons.menu),
+            SizedBox(width: 10),
+            Icon(Icons.notification_add),
+            Padding(padding: EdgeInsets.only(right: 16))
+          ],  // 오른쪽
+        ),
+        body: Container(
+          padding: EdgeInsets.fromLTRB(10, 20, 0, 0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.asset('assets/cat.png', width: 150,),
+              SizedBox(width: 30,),
+              // 이미지를 넣고 남은 공간 모두 자리차지
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 12,
+                  children: [
+                    Text('고양이 집사 구함', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),),
+                    Text('개냥이, 활발한 성격'),
+                    Text('금액은 만나서 결정', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Icon(Icons.favorite_border),
+                        Text('4')
+                      ],
+                    ),
 
-      // home: Image.asset('sea.jpg'), // 크롬에서 볼 때
-      // home: Image.asset('assets/sea.jpg'), // 애뮬레이터에서 볼 때, 최신버전은 크롬, 애뮬 다 보임
-
-      // home: Container(color: Colors.blueAccent,),
-      // width, height가 안 되는 이유는 박스의 기준(어디를 기준으로 width: 50, height: 50를 넣어야 되는지)이 없기 때문
-      home: Container(width: 50, height: 50, color: Colors.blueAccent,),
-
-
-
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
