@@ -1,6 +1,6 @@
 // 비교 연산자 : <, >, ==, !=, <= ...
 void main() {
-  int num  = 1;
+  int num = 1;
   print(num is int);
   print(num is String);
 

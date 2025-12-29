@@ -1,6 +1,6 @@
 /*
-  집합 자료형 : List, Set, Map
-    - List type
+* 집합 자료형 : List, Set, Map
+  - List type
     java의 List와 동일
  */
 
@@ -13,9 +13,10 @@ void main() {
   print(name[1]);
   print(name.length);
 
-  name.add('이자반');
+  name.add('최인영');
   print(name);
-  name.remove('이한나');
+
+  name.remove('최인영');
   print(name);
 
   print(name.indexOf('제니'));

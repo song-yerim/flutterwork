@@ -7,7 +7,7 @@ void main() {
   print(students);
   print(students['20250002']);
 
-  students.addAll({'20250004' : '남궁용진'});
+  students.addAll({'20250004':'남궁용진'});
   print(students);
 
   students['20250004'] = '트와이스';
@@ -18,5 +18,4 @@ void main() {
 
   print('keys : ${students.keys}');
   print('values : ${students.values}');
-
 }
