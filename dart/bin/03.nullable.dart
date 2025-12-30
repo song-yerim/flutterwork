@@ -23,9 +23,9 @@ void main() {
 
 /*
    ! : nullable type으로 선언했을 때
-       변수 뒤에 !를 붙여서 null인경우 오류를 발생하도록 만듬
+       변수 뒤에 !를 붙여서 null인경우 오류를 발생하도록 만듦
        - 변수명에 !를 붙이면, non-nullable의 타입이라는 뜻
- */
+*/
 
   String? name3 = 'won';
   print(name3);
