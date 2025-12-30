@@ -102,28 +102,31 @@ class MyApp extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset('assets/cat.png', width: 150,),
+              Flexible(child: Image.asset('assets/cat.png'), flex:4,),
               SizedBox(width: 30,),
-              // 이미지를 넣고 남은 공간 모두 자리차지
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 12,
-                  children: [
-                    Text('고양이 집사 구함', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),),
-                    Text('개냥이, 활발한 성격'),
-                    Text('금액은 만나서 결정', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Icon(Icons.favorite_border),
-                        Text('4')
-                      ],
-                    ),
-
-                  ],
+              Flexible(
+                child: SizedBox(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 12,
+                    children: [
+                      Text('고양이 집사 구함', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),),
+                      Text('개냥이, 활발한 성격'),
+                      Text('금액은 만나서 결정', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),),
+                      SizedBox(
+                        width: 150,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Icon(Icons.favorite_border),
+                            Text('4')
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              )
+              flex: 6)
             ],
           ),
         ),
