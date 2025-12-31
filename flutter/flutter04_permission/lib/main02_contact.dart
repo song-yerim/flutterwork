@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 
 void main() {
   runApp(
@@ -16,22 +18,34 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var name = ['이기쁨', '채규태', '이고잉'];
+  // 권한 얻어오기
+  getPermission() async {
+    var status = await Permission.contacts.request();
+    if(status.isGranted) {
+      print('허락됨');
+      List<Contact> contacts = await FlutterContacts.getContacts(withProperties: true);
+      print(contacts);
+      print(contacts[0]);
+      print(contacts[0].displayName); // contacts 0번의 이름 출력
+      setState(() {
+        name = contacts;
+      });
+    } else if(status.isDenied) {
+      print('거절됨');
+    } else if(status.isPermanentlyDenied) {
+      print('영구 거절됨. 설정에서 직접 설정');
+      openAppSettings();
+    }
+  }
+  var name = []; // List<dynamic> 타입이 됨
 
-  /* // 1.1 수정 함수 만들기
-  addName() {
+  // 1. 함수 추가
+  addName() async {
+    var contacts = await FlutterContacts.getContacts(withProperties: true);
     setState(() {
-      name.add('나생성');
+      name = contacts;
     });
   }
-  */
-    // 2.1 수정 함수 만들기
-  addName(inputName) {
-    setState(() {
-      name.add(inputName);
-    });
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +56,7 @@ class _MyAppState extends State<MyApp> {
           showDialog(
               context: context,
               builder: (context) {
-                // 1.2 자식에게 함수 보내기 / 2.2 동일
-                return CustomDialog(addName: addName);
+                return CustomDialog(addName:addName);
               }
           );
         },
@@ -53,15 +66,15 @@ class _MyAppState extends State<MyApp> {
         backgroundColor: Color(0xfff3edf7),
         leading: Icon(Icons.list),
         title: Text('주소록'),
-        actions: [Icon(Icons.search), Icon(Icons.share)],
+        actions: [IconButton(onPressed: (){getPermission();}, icon: Icon(Icons.co_present)),Icon(Icons.search), Icon(Icons.share)],
       ),
       body: ListView.builder(
         padding: EdgeInsets.all(10),
         itemCount: name.length,
         itemBuilder: (context, index) {
           return ListTile(
-            leading: Image.asset('user_${index+1}.png'),
-            title: Text(name[index]),
+            leading: Image.asset('assets/user_${index+1}.png'),
+            title: Text(name[index].displayName),
           );
         },
       ),
@@ -70,12 +83,11 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-// 1.3 등록 / 2.3 동일
 class CustomDialog extends StatelessWidget {
   /* const */ CustomDialog({super.key, this.addName});
   final addName;
-  // 2.4 input 데이터 만들기
-  var inputData = '';
+
+  var inputData = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -85,14 +97,15 @@ class CustomDialog extends StatelessWidget {
         height: 300,
         child: Column(
           children: [
-            // 2.5 받은 이름 변수에 저장
-            TextField(onChanged: (text){inputData = text; }),
-            // 1.4 사용하기
-            // TextButton(onPressed: (){addName(); Navigator.pop(context); }, child: Text('완료')),
-            // TextButton(onPressed: (){ Navigator.pop(context); }, child: Text('취소'))
-
-            // 2.6 사용하기
-            TextButton(onPressed: (){addName(inputData); Navigator.pop(context); }, child: Text('완료')),
+            TextField(controller: inputData,),
+            TextButton(onPressed: () async {
+              Navigator.pop(context);
+              var newContact = Contact();
+              newContact.name.first = inputData.text; // 사용자로부터 받은 이름
+              // 함수호출(newContact);
+              await newContact.insert(); // 이름 추가
+              await addName();
+            }, child: Text('완료')),
             TextButton(onPressed: (){ Navigator.pop(context); }, child: Text('취소'))
           ],
         ),
@@ -118,3 +131,4 @@ class CustomBottom extends StatelessWidget {
     );
   }
 }
+

@@ -18,20 +18,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   var name = ['이기쁨', '채규태', '이고잉'];
 
-  /* // 1.1 수정 함수 만들기
-  addName() {
-    setState(() {
-      name.add('나생성');
-    });
-  }
-  */
-    // 2.1 수정 함수 만들기
-  addName(inputName) {
-    setState(() {
-      name.add(inputName);
-    });
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +28,7 @@ class _MyAppState extends State<MyApp> {
           showDialog(
               context: context,
               builder: (context) {
-                // 1.2 자식에게 함수 보내기 / 2.2 동일
-                return CustomDialog(addName: addName);
+                return CustomDialog();
               }
           );
         },
@@ -70,12 +55,9 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-// 1.3 등록 / 2.3 동일
 class CustomDialog extends StatelessWidget {
-  /* const */ CustomDialog({super.key, this.addName});
-  final addName;
-  // 2.4 input 데이터 만들기
-  var inputData = '';
+  // 1. const 지우기
+  /* const */ CustomDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -85,14 +67,21 @@ class CustomDialog extends StatelessWidget {
         height: 300,
         child: Column(
           children: [
-            // 2.5 받은 이름 변수에 저장
-            TextField(onChanged: (text){inputData = text; }),
-            // 1.4 사용하기
-            // TextButton(onPressed: (){addName(); Navigator.pop(context); }, child: Text('완료')),
-            // TextButton(onPressed: (){ Navigator.pop(context); }, child: Text('취소'))
+            /*
+    // 3. 변수에 저장 (constroller : 변수명)  : 실시간 출력 안 됨
+            TextField(controller: inputData),
+            TextButton(onPressed: (){
+                print(inputData.text);
+              },
+              child: Text('콘솔에 입력값 출력')
+            ),
+            */
+    // 4. onChanged 사용하여 실시간 으로 출력 넣기
+            // TextField(onChanged: (text){ print(text);}),
 
-            // 2.6 사용하기
-            TextButton(onPressed: (){addName(inputData); Navigator.pop(context); }, child: Text('완료')),
+    // 5. onChanged 사용하여 실시간으로 변수에 저장하기
+            TextField(),
+            TextButton(onPressed: (){ }, child: Text('완료')),
             TextButton(onPressed: (){ Navigator.pop(context); }, child: Text('취소'))
           ],
         ),
