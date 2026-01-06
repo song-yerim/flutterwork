@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 /*
-  * 자식이 부모의 state 변경하기
+  * 자식이 부모의 변수에 값을 사용하고 싶을 때
     1. 부모가 자식에게 보내기
     2. 자식은 부모가 보내준 변수 등록
     3. 자식이 사용
  */
 void main() {
   runApp(
-      MaterialApp(
-          home: MyApp()
-      )
+    MaterialApp(
+        home: MyApp()
+    )
   );
 }
 
@@ -28,45 +28,45 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print(context);
-          showDialog(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            print(context);
+            showDialog(
               context: context,
               builder: (context) {
-              // 1. 부모가 자식에게 보내기
-                return CustomDialog(namestate : name);
+// 1. 부모가 자식에게 보내기
+                return CustomDialog(stateVar : num, nameState : name);
               }
-          );
-        },
-        child: Text(''),
-      ),
-      appBar: AppBar(
-        backgroundColor: Color(0xfff3edf7),
-        leading: Icon(Icons.list),
-        title: Text('주소록'),
-        actions: [Icon(Icons.search), Icon(Icons.share)],
-      ),
-      body: ListView.builder(
-        padding: EdgeInsets.all(10),
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return ListTile(
-            leading: Image.asset('user_${index+1}.png'),
-            title: Text(name[index]),
-          );
-        },
-      ),
-      bottomNavigationBar: CustomBottom(),
+            );
+          },
+          child: Text(''),
+        ),
+        appBar: AppBar(
+          backgroundColor: Color(0xfff3edf7),
+          leading: Icon(Icons.list),
+          title: Text('주소록'),
+          actions: [Icon(Icons.search), Icon(Icons.share)],
+        ),
+        body: ListView.builder(
+            padding: EdgeInsets.all(10),
+            itemCount: 5,
+            itemBuilder: (context, index) {
+              return ListTile(
+                leading: Image.asset('assets/user${index+1}.png'),
+                title: Text(name[index]),
+              );
+            },
+        ),
+        bottomNavigationBar: CustomBottom(),
     );
   }
 }
 
 class CustomDialog extends StatelessWidget {
   // 2.  등록하기
-  const CustomDialog({super.key, this.stateVar, this.namestate});
+  const CustomDialog({super.key, this.stateVar, this.nameState});
   final stateVar;
-  final namestate;
+  final nameState;
 
   @override
   Widget build(BuildContext context) {
@@ -78,9 +78,9 @@ class CustomDialog extends StatelessWidget {
           children: [
             TextField(),
             // 3. 사용하기
-            // Text(namestate[1]),
-            Text(namestate.toString()),
-            TextButton(onPressed: (){}, child: Text(namestate.toString())),
+            // Text(nameState[1]),
+            Text(nameState.toString()),
+            TextButton(onPressed: (){}, child: Text(stateVar.toString())),
             TextButton(onPressed: (){ Navigator.pop(context); }, child: Text('취소'))
           ],
         ),

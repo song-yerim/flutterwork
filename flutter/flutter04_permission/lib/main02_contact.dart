@@ -20,24 +20,23 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   // 권한 얻어오기
   getPermission() async {
-    var status = await Permission.contacts.request();
+    var status = await Permission.contacts.status;
     if(status.isGranted) {
       print('허락됨');
       List<Contact> contacts = await FlutterContacts.getContacts(withProperties: true);
-      print(contacts);
-      print(contacts[0]);
-      print(contacts[0].displayName); // contacts 0번의 이름 출력
       setState(() {
         name = contacts;
       });
     } else if(status.isDenied) {
       print('거절됨');
+      Permission.contacts.request();
     } else if(status.isPermanentlyDenied) {
       print('영구 거절됨. 설정에서 직접 설정');
       openAppSettings();
     }
   }
-  var name = []; // List<dynamic> 타입이 됨
+
+  var name = [];    // List<dynamic> 타입이 됨
 
   // 1. 함수 추가
   addName() async {
@@ -56,7 +55,8 @@ class _MyAppState extends State<MyApp> {
           showDialog(
               context: context,
               builder: (context) {
-                return CustomDialog(addName:addName);
+                // 2. 넘겨주기
+                return CustomDialog(addName : addName);
               }
           );
         },
@@ -66,14 +66,14 @@ class _MyAppState extends State<MyApp> {
         backgroundColor: Color(0xfff3edf7),
         leading: Icon(Icons.list),
         title: Text('주소록'),
-        actions: [IconButton(onPressed: (){getPermission();}, icon: Icon(Icons.co_present)),Icon(Icons.search), Icon(Icons.share)],
+        actions: [IconButton(onPressed: (){getPermission();}, icon: Icon(Icons.contacts_outlined)), Icon(Icons.search), Icon(Icons.share)],
       ),
       body: ListView.builder(
         padding: EdgeInsets.all(10),
         itemCount: name.length,
         itemBuilder: (context, index) {
           return ListTile(
-            leading: Image.asset('assets/user_${index+1}.png'),
+            leading: Image.asset('assets/user${index+1}.png'),
             title: Text(name[index].displayName),
           );
         },
@@ -83,10 +83,10 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+// 3. 등록
 class CustomDialog extends StatelessWidget {
-  /* const */ CustomDialog({super.key, this.addName});
+  CustomDialog({super.key, this.addName});
   final addName;
-
   var inputData = TextEditingController();
 
   @override
@@ -99,12 +99,11 @@ class CustomDialog extends StatelessWidget {
           children: [
             TextField(controller: inputData,),
             TextButton(onPressed: () async {
-              Navigator.pop(context);
               var newContact = Contact();
-              newContact.name.first = inputData.text; // 사용자로부터 받은 이름
-              // 함수호출(newContact);
-              await newContact.insert(); // 이름 추가
+              newContact.name.first = inputData.text;
+              await newContact.insert(); // 핸드폰의 주소록에 넣기
               await addName();
+              Navigator.pop(context);
             }, child: Text('완료')),
             TextButton(onPressed: (){ Navigator.pop(context); }, child: Text('취소'))
           ],
@@ -113,6 +112,7 @@ class CustomDialog extends StatelessWidget {
     );
   }
 }
+
 
 class CustomBottom extends StatelessWidget {
   const CustomBottom({super.key});
@@ -131,4 +131,3 @@ class CustomBottom extends StatelessWidget {
     );
   }
 }
-

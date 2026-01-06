@@ -116,17 +116,17 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(backgroundColor: Color(0xfff3edf7)),
         body: ListView.builder(
-            itemCount: 100,  // 반복 횟수
-            itemBuilder: (context, index) {
-              // return Text('반복됨');
-              // return Text(index.toString());  // Text() 문자만 가능. 숫자->문자로 변환
-              // return Text('반복횟수 : ' + index.toString());
-              // return Text('반복횟수 : $index'); st
-              return ListTile(
-                  leading: Image.asset('assets/user1.png'),
-                  title: Text('친구 $index')
-              );
-            }
+          itemCount: 100,  // 반복 횟수
+          itemBuilder: (context, index) {
+            // return Text('반복됨');
+            // return Text(index.toString());  // Text() 문자만 가능. 숫자->문자로 변환
+            // return Text('반복횟수 : ' + index.toString());
+            // return Text('반복횟수 : $index');
+            return ListTile(
+              leading: Image.asset('assets/user1.png'),
+              title: Text('친구 $index')
+            );
+          }
         ),
       ),
     );
@@ -142,5 +142,6 @@ class MyApp extends StatelessWidget {
 필요한 파라미터 |      children : [...]         |          itemCount, itemBuilder
 사용          |  리스트 항목이 10개 이하로 작을 때 | 리스트가 많거나 무한스크롤, 동적 데이터일 경우
  */
+
 
 

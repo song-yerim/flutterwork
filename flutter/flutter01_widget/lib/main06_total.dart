@@ -15,10 +15,10 @@ class MyApp extends StatelessWidget {
           backgroundColor: Color(0xfff3edf7),
           title: Text('강남역'),
           actions: [
-            Icon(Icons.search),
-            SizedBox(width: 10),
-            Icon(Icons.menu),
-            SizedBox(width: 10),
+            Icon(Icons.search), 
+            SizedBox(width: 10), 
+            Icon(Icons.menu), 
+            SizedBox(width: 10), 
             Icon(Icons.notification_add),
             Padding(padding: EdgeInsets.only(right: 16))
           ],  // 오른쪽
@@ -58,3 +58,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

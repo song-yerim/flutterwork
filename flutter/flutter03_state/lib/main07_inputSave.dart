@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 /*
-  * input 데이터 사용
-    TextField() 위젯은 저장되지 않음. 변수에 저장해야됨
+* input 데이터 사용
+  TextField()위젯은 저장되지 않음. 변수에 저장해야됨
  */
 void main() {
   runApp(
-      MaterialApp(
-          home: MyApp()
-      )
+    MaterialApp(
+        home: MyApp()
+    )
   );
 }
 
@@ -27,39 +27,38 @@ class _MyAppState extends State<MyApp> {
       total++;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print(context);
-          showDialog(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            print(context);
+            showDialog(
               context: context,
               builder: (context) {
                 return CustomDialog(friendState : addFriend);
               }
-          );
-        },
-        child: Text(''),
-      ),
-      appBar: AppBar(
-        backgroundColor: Color(0xfff3edf7),
-        leading: Icon(Icons.list),
-        title: Text(total.toString()),
-        actions: [Icon(Icons.search), Icon(Icons.share)],
-      ),
-      body: ListView.builder(
-        padding: EdgeInsets.all(10),
-        itemCount: name.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            leading: Image.asset('user_${index+1}.png'),
-            title: Text(name[index]),
-          );
-        },
-      ),
-      bottomNavigationBar: CustomBottom(),
+            );
+          },
+          child: Text(''),
+        ),
+        appBar: AppBar(
+          backgroundColor: Color(0xfff3edf7),
+          leading: Icon(Icons.list),
+          title: Text(total.toString()),
+          actions: [Icon(Icons.search), Icon(Icons.share)],
+        ),
+        body: ListView.builder(
+            padding: EdgeInsets.all(10),
+            itemCount: name.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                leading: Image.asset('assets/user${index+1}.png'),
+                title: Text(name[index]),
+              );
+            },
+        ),
+        bottomNavigationBar: CustomBottom(),
     );
   }
 }
@@ -72,7 +71,7 @@ class CustomDialog extends StatelessWidget {
   // 2. 변수 만들기
   var inputData = TextEditingController();
 
-  // 5. onChanged를 이용하여 변수에 저장하기 (빈 곳에 저장해야 함)
+  // 5. onChanged를 이용하여 변수에 저장하기
   var inputData2 = '';
 
   @override
@@ -84,21 +83,21 @@ class CustomDialog extends StatelessWidget {
         child: Column(
           children: [
             /*
-            // 3. 변수에 저장 (controller : 변수명) : 실시간 출력 안 됨
+// 3. 변수에 저장 (constroller : 변수명)  : 실시간 출력 안됨
             TextField(controller: inputData),
             TextButton(onPressed: (){
-              print(inputData.text);
+                print(inputData.text);
               },
-                child: Text('콘솔에 입력값 출력')),
-             */
-            // 4. onChanged 사용하여 실시간 변수에 입력 값 넣기
-            // TextField(onChanged: (text){print(text);}),
+              child: Text('콘솔에 입력값 출력')
+            ),
+            */
+// 4. onChanged 사용하여 실시간 으로 출력 넣기
+            // TextField(onChanged: (text){ print(text);}),
 
-            // 5. onChanged 사용하여 실시간으로 변수에 저장하기
-            TextField(onChanged: (text){inputData2 = text; },),
-            TextButton(onPressed: (){ (); print(inputData2);}, child: Text('완료')),
+// 5. onChanged 사용하여 실시간으로 변수에 저장하기
+            TextField(onChanged: (text){ inputData2 = text; },),
+            TextButton(onPressed: (){friendState(); print(inputData2); }, child: Text('완료')),
             TextButton(onPressed: (){ Navigator.pop(context); }, child: Text('취소'))
-            // Navigator.pop(context); : 창 닫기
           ],
         ),
       ),

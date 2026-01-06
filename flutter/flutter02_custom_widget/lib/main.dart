@@ -18,14 +18,14 @@ class MyApp extends StatelessWidget {
           actions: [Icon(Icons.search), Icon(Icons.share)],
         ),
         body: ListView.builder(
-            padding: EdgeInsets.all(10),
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return ListTile(
-                  leading: Image.asset('assets/user1.png'),
-                  title: Text('친구 $index')
-              );
-            }
+          padding: EdgeInsets.all(10),
+          itemCount: 5,
+          itemBuilder: (context, index) {
+            return ListTile(
+              leading: Image.asset('assets/user1.png'),
+              title: Text('친구 $index')
+            );
+          }
         ),
         bottomNavigationBar: CustomBottom(),
       ),
@@ -50,6 +50,7 @@ class CustomBottom extends StatelessWidget {
     );
   }
 }
+
 
 
 

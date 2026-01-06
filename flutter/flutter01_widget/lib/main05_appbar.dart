@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// AppBar()
 
 void main() {
   runApp(const MyApp());
@@ -10,18 +11,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home:Scaffold(
+      home: Scaffold(
         appBar: AppBar(
-            backgroundColor: Color(0xe490cbfb),
-            leading: Icon(Icons.list),  // 왼쪽
-            title: Text('MyApp'),
-            actions: [Icon(Icons.search), Icon(Icons.list), Icon(Icons.doorbell)], // 오른쪽
+          backgroundColor: Color(0xfff3edf7),
+          leading: Icon(Icons.list),  // 왼쪽
+          title: Text('MyApp'),
+          actions: [Icon(Icons.search), Icon(Icons.favorite)],  // 오른쪽
         ),
-        body: Center(child: Text('본문')),
-        bottomNavigationBar: BottomAppBar(
-          
-        ),
-      )
+        body: Text('본문'),
+      ),
     );
   }
 }
+

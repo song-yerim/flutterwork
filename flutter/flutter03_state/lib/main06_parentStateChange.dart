@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
  */
 void main() {
   runApp(
-      MaterialApp(
-          home: MyApp()
-      )
+    MaterialApp(
+        home: MyApp()
+    )
   );
 }
 
@@ -22,8 +22,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var name = ['이기쁨', '채규태', '이고잉', '송미영', '더조은'];
-  // 1. state 만들기
-  var total = 5;    // 친구 수
+// 1. state 만들기
+  var total = 5;    // 친구수
 
   // 3. 수정 함수 만들기
   addFriend() {
@@ -31,41 +31,40 @@ class _MyAppState extends State<MyApp> {
       total++;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print(context);
-          showDialog(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            print(context);
+            showDialog(
               context: context,
               builder: (context) {
-                // 4. 자식에게 함수 보내기
+// 4. 자식에게 함수 보내기
                 return CustomDialog(friendState : addFriend);
               }
-          );
-        },
-        child: Text(''),
-      ),
-      appBar: AppBar(
-        backgroundColor: Color(0xfff3edf7),
-        leading: Icon(Icons.list),
-        // 2. 출력 : CustomDialog에서 완료 버튼을 누르면 숫자가 1 증가
-        title: Text(total.toString()),
-        actions: [Icon(Icons.search), Icon(Icons.share)],
-      ),
-      body: ListView.builder(
-        padding: EdgeInsets.all(10),
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return ListTile(
-            leading: Image.asset('user_${index+1}.png'),
-            title: Text(name[index]),
-          );
-        },
-      ),
-      bottomNavigationBar: CustomBottom(),
+            );
+          },
+          child: Text(''),
+        ),
+        appBar: AppBar(
+          backgroundColor: Color(0xfff3edf7),
+          leading: Icon(Icons.list),
+// 2. 출력 : CustomDialog에서 완료 버튼을 누르면 숫자가 1증가
+          title: Text(total.toString()),
+          actions: [Icon(Icons.search), Icon(Icons.share)],
+        ),
+        body: ListView.builder(
+            padding: EdgeInsets.all(10),
+            itemCount: 5,
+            itemBuilder: (context, index) {
+              return ListTile(
+                leading: Image.asset('assets/user${index+1}.png'),
+                title: Text(name[index]),
+              );
+            },
+        ),
+        bottomNavigationBar: CustomBottom(),
     );
   }
 }
@@ -86,13 +85,12 @@ class CustomDialog extends StatelessWidget {
             TextField(),
             // 6. 사용하기
             TextButton(onPressed: (){
-              friendState();
-              Navigator.pop(context);
+                friendState();
+                Navigator.pop(context);
               },
-                child: Text('완료')
+              child: Text('완료')
             ),
             TextButton(onPressed: (){ Navigator.pop(context); }, child: Text('취소'))
-            // Navigator.pop(context); : 창 닫기
           ],
         ),
       ),
