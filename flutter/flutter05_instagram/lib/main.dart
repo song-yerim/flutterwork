@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter05_instagram/login.dart';
 import 'package:flutter05_instagram/notification.dart';
 import './style.dart' as style;
 import 'package:http/http.dart' as http;
@@ -9,26 +10,21 @@ import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 import 'shop.dart';
+import 'homeLarge.dart';
 
 void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
   runApp(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => Store1()),
-          ChangeNotifierProvider(create: (context) => Store2())
-        ],
-        child: MaterialApp(
-          theme: style.theme,
-          home: const MyApp(),
-        ),
-      )
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => Store1()),
+        ChangeNotifierProvider(create: (context) => Store2())
+      ],
+      child: MaterialApp(
+        theme: style.theme,
+        home: const MyApp(),
+      ),
+    )
   );
 }
 
@@ -94,47 +90,61 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // MediaQuery.of : 현재 기기
+    // print('가로 : ${MediaQuery.of(context).size.width}');
+    // print('세로 : ${MediaQuery.of(context).size.height}');
+    // print('기기의 상단 : ${MediaQuery.of(context).padding.top}');
+    // print('해상도 : ${MediaQuery.of(context).devicePixelRatio}');  // 이 기기는 1LP에 픽셀이 몇개 들어가는지
+
+    // 고대비 옵션이 켜져있는지 아닌지
+    // print(MediaQuery.of(context).highContrast);
+
+    // 폰트 사이즈를 얼마나 키우고 폰을 쓰는지
+    // print(MediaQuery.of(context).textScaler);
+
     return Scaffold(
       appBar: AppBar(
         title:Text('Instargram'),
         actions: [
           IconButton(
-              onPressed: (){
-                showNotification2();
-                print("알림을 보냈습니다");
-              },
-              icon: Icon(Icons.alarm)
+            onPressed: (){
+              showNotification();
+              print("알림을 보냈습니다");
+            },
+            icon: Icon(Icons.alarm)
           ),
-          /*IconButton(
-              onPressed: () async {
-                await notifications.cancel(1);
-                print("알림을 보냈습니다");
-              },
-              icon: Icon(Icons.cancel)
-          ),*/
           IconButton(
-              onPressed: () async {
-                var picker = ImagePicker();
-                var image = await picker.pickImage(source: ImageSource.gallery);
-                if(image != null) {
-                  setState(() {
-                    userImage = File(image.path);
-                  });
-                }
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Upload(
-                    userImage: userImage,
-                    setUserContent: setUserContent,
-                    addMyData : addMyData
-                )));
-              },
-              icon: Icon(Icons.add_box_outlined)
+            onPressed: () async {
+              var picker = ImagePicker();
+              var image = await picker.pickImage(source: ImageSource.gallery);
+              if(image != null) {
+                setState(() {
+                  userImage = File(image.path);
+                });
+              }
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Upload(
+                userImage: userImage,
+                setUserContent: setUserContent,
+                addMyData : addMyData
+              )));
+            },
+            icon: Icon(Icons.add_box_outlined)
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage())
+              );
+            },
+            icon: Icon(Icons.login)
           )
         ],
       ),
-      body: [Home(feedItems: feedItems, addData: addData), Shop()][tab],
+      body: [MediaQuery.sizeOf(context).width > 600 ? Homelarge() : Home(feedItems: feedItems, addData: addData), Shop()][tab],
       bottomNavigationBar: BottomNavigationBar(
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
           onTap: (i) {
             print(i);
             setState(() {
@@ -173,12 +183,12 @@ class _HomeState extends State<Home> {
     var result = await http.get(Uri.parse('https://itwon.store/flutter/data/data$page.json'));
     if(result.statusCode == 200) {
       var result2 = jsonDecode(result.body);
-      if(result2.isEmpty) {
-        hasMore = false;
-      } else {
-        widget.addData(result2);
-        page++;
-      }
+        if(result2.isEmpty) {
+          hasMore = false;
+        } else {
+          widget.addData(result2);
+          page++;
+        }
     } else {
       hasMore = false;
       throw Exception('서버에서 가져오기 실패');
@@ -195,16 +205,16 @@ class _HomeState extends State<Home> {
       }
     });
   }
-
+  
   @override
   Widget build(BuildContext context) {
     if(widget.feedItems.isNotEmpty) {
       return ListView.builder(itemCount: widget.feedItems.length, controller: scroll, itemBuilder: (c, i) {
         return Column(
           children: [
-            widget.feedItems[i]['image'].runtimeType == String
-                ? Image.network(widget.feedItems[i]['image'])
-                : Image.file(widget.feedItems[i]['image'], height: 400, width: double.infinity, fit: BoxFit.cover),
+            widget.feedItems[i]['image'].runtimeType == String 
+            ? Image.network(widget.feedItems[i]['image'])
+            : Image.file(widget.feedItems[i]['image'], height: 400, width: double.infinity, fit: BoxFit.cover),
 
             Container(
               padding: EdgeInsets.all(20),
@@ -217,10 +227,10 @@ class _HomeState extends State<Home> {
                     child: Text('글쓴이 : ${widget.feedItems[i]['user']}'),
                     onTap: () {
                       Navigator.push(context,
-                          PageRouteBuilder(pageBuilder: (context, a1, a2) => Profile(),
-                              transitionsBuilder: (context, a1, a2, child) => FadeTransition(opacity: a1, child: child),
-                              transitionDuration: Duration(milliseconds: 1000)
-                          )
+                        PageRouteBuilder(pageBuilder: (context, a1, a2) => Profile(),
+                          transitionsBuilder: (context, a1, a2, child) => FadeTransition(opacity: a1, child: child),
+                          transitionDuration: Duration(milliseconds: 1000)
+                        )
                       );
                     },
                   ),
@@ -312,11 +322,11 @@ class Profile extends StatelessWidget {
             child: ProfileHeader(),
           ),
           SliverGrid(
-              delegate: SliverChildBuilderDelegate(
-                      (c, i) => Image.network(context.watch<Store1>().profileImage[i], fit: BoxFit.fill),
-                  childCount: context.watch<Store1>().profileImage.length
-              ),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 5, crossAxisSpacing: 5)
+            delegate: SliverChildBuilderDelegate(
+              (c, i) => Image.network(context.watch<Store1>().profileImage[i], fit: BoxFit.fill),
+              childCount: context.watch<Store1>().profileImage.length
+            ), 
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 5, crossAxisSpacing: 5)
           )
         ],
       ),

@@ -35,50 +35,50 @@ initNotification(context) async {
 
   await notifications.initialize(
       initializationSettings,
-      // 알림을 클릭 했을 때 새로운 창 열기
-      onDidReceiveNotificationResponse: (payload) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Scaffold(appBar: AppBar(), body:Text('창이 열리는 알림'))
-            )
-        );
-      }
+    // 알림을 클릭 했을 때 새로운 창 열기
+    onDidReceiveNotificationResponse: (payload) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Scaffold(appBar: AppBar(), body:Text('창이 열리는 알림'))
+        )
+      );
+    }
   );
 }
 
 showNotification() {
   var androidDetails = AndroidNotificationDetails(
-    '유니크한 알림 ID',
-    '알림 종류 설명',
+      '유니크한 알림 ID',
+      '알림 종류 설명',
     priority: Priority.high,
     importance: Importance.max,
     // color: Color.fromARGB(255,255,0,0)
   );
 
   var iosDetails = DarwinNotificationDetails(
-      presentAlert: true,
-      presentBadge: true,
-      presentSound: true
+    presentAlert: true,
+    presentBadge: true,
+    presentSound: true
   );
 
   notifications.show(
-      1,
-      '제목1',
-      '내용1',
-      NotificationDetails(android : androidDetails, iOS:iosDetails),
-      payload: '정보들'  // 알림에 대한 정보를 몰래 심어 놓을 수 있다.
+    1,
+    '제목1',
+    '내용1',
+    NotificationDetails(android : androidDetails, iOS:iosDetails),
+    payload: '정보들'  // 알림에 대한 정보를 몰래 심어 놓을 수 있다.
     // 잘 사용하지 않음. 버그도 많고 재렌더링 안됨
   );
 }
 
 showNotification2() async {
   var androidDetails = AndroidNotificationDetails(
-      '유니크한 알림 ID',
-      '알림 종류 설명',
-      priority: Priority.high,
-      importance: Importance.max,
-      color: Color.fromARGB(255,255,0,0)
+    '유니크한 알림 ID',
+    '알림 종류 설명',
+    priority: Priority.high,
+    importance: Importance.max,
+    color: Color.fromARGB(255,255,0,0)
   );
 
   var iosDetails = DarwinNotificationDetails(
@@ -136,7 +136,7 @@ showNotification2() async {
       makeDate(13, 30, 00),
       NotificationDetails(android : androidDetails, iOS:iosDetails),
       androidScheduleMode: AndroidScheduleMode.inexact,
-      matchDateTimeComponents: DateTimeComponents.time
+    matchDateTimeComponents: DateTimeComponents.time
   );
 }
 

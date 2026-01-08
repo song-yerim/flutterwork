@@ -18,13 +18,15 @@ class _ShopState extends State<Shop> {
     getData();
     // setData();
   }
-/*
+
+  // firebase에서 가져오기
+  /*
   getData() async {
     var result = await firestore.collection('product')
-                                        .doc('pE2fmiYrBxaBSg0GfJf8')
-                                        .get();
+                                .doc('aI6Su506WdLXaBwbHNZF')
+                                .get();
     print('결과 : $result');
-    print('가격 :${result['price']}');
+    print('가격 : ${result['price']}');
 
     // 컬렉션에 있는 모든 데이터 가져오기
     var result2 = await firestore.collection('product').get();
@@ -32,51 +34,57 @@ class _ShopState extends State<Shop> {
     //   print(doc['name']);
     // }
 
-    // 서버가 안되거나 하는 경우 대비 (문서가 비어있지 않을 때만 for문 동작)
+    // 서버가 안되거나 하는경우 대비
     if(result2.docs.isNotEmpty) {
       for(var doc in result2.docs) {
         print(doc['name']);
       }
-   }
-*/
+    }
+  }
+  */
+
   /*
   // try 예외
   getData() async {
     try {
       var result2 = await firestore.collection('product').get();
-       for(var doc in result2.docs) {
-         print(doc['name']);
-       }
+      for(var doc in result2.docs) {
+        print(doc['name']);
+      }
     } catch(e) {
       print('서버 오류');
     }
   }
 */
 
-  // firebase에 저장
-  setData() async {
-    await firestore.collection('product')
-                    .add({'name:':'블라우스', 'price':'30000'});
-
-  }
-
   getData() async {
-    try { // 가격이 23000원 보다 큰 것
+    try {
       var result3 = await firestore.collection('product')
-                                   .where('price', isGreaterThan: 23000)
-                                   .get();
-      for (var pro1 in result3.docs) {
+                                    .where('price', isGreaterThan: 23000)
+                                    .get();
+      for(var pro1 in result3.docs) {
         print(pro1['name']);
         print(pro1['price']);
       }
-
-    }
-    catch(e) {
+    } catch(e) {
       print('서버 오류');
     }
   }
 
+
+
+  // firebase에 저장
+  setData() async {
+    await firestore.collection('product')
+                    .add({'name':'블라우스', 'price':30000});
+  }
+
+
+
+  @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container(
+      child: Text('Shop Page firebase'),
+    );
   }
 }

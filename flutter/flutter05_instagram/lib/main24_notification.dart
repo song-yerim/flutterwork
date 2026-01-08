@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter05_instagram/notification.dart';
 import './style.dart' as style;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -8,7 +9,6 @@ import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
-import 'notification.dart';
 
 /*
   알림 띄우기
@@ -98,11 +98,11 @@ class _MyAppState extends State<MyApp> {
         title:Text('Instargram'),
         actions: [
           IconButton(
-              onPressed: (){
-                showNotification2();
-                print("알림을 보냈습니다");
-              },
-              icon: Icon(Icons.alarm)
+            onPressed: (){
+              showNotification2();
+              print("알림을 보냈습니다");
+            },
+            icon: Icon(Icons.alarm)
           ),
           /*IconButton(
               onPressed: () async {
@@ -112,28 +112,28 @@ class _MyAppState extends State<MyApp> {
               icon: Icon(Icons.cancel)
           ),*/
           IconButton(
-              onPressed: () async {
-                var picker = ImagePicker();
-                var image = await picker.pickImage(source: ImageSource.gallery);
-                if(image != null) {
-                  setState(() {
-                    userImage = File(image.path);
-                  });
-                }
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Upload(
-                    userImage: userImage,
-                    setUserContent: setUserContent,
-                    addMyData : addMyData
-                )));
-              },
-              icon: Icon(Icons.add_box_outlined)
+            onPressed: () async {
+              var picker = ImagePicker();
+              var image = await picker.pickImage(source: ImageSource.gallery);
+              if(image != null) {
+                setState(() {
+                  userImage = File(image.path);
+                });
+              }
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Upload(
+                userImage: userImage,
+                setUserContent: setUserContent,
+                addMyData : addMyData
+              )));
+            },
+            icon: Icon(Icons.add_box_outlined)
           )
         ],
       ),
       body: [Home(feedItems: feedItems, addData: addData), Text('Shop Page')][tab],
       bottomNavigationBar: BottomNavigationBar(
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
           onTap: (i) {
             print(i);
             setState(() {
@@ -172,12 +172,12 @@ class _HomeState extends State<Home> {
     var result = await http.get(Uri.parse('https://itwon.store/flutter/data/data$page.json'));
     if(result.statusCode == 200) {
       var result2 = jsonDecode(result.body);
-      if(result2.isEmpty) {
-        hasMore = false;
-      } else {
-        widget.addData(result2);
-        page++;
-      }
+        if(result2.isEmpty) {
+          hasMore = false;
+        } else {
+          widget.addData(result2);
+          page++;
+        }
     } else {
       hasMore = false;
       throw Exception('서버에서 가져오기 실패');
@@ -194,16 +194,16 @@ class _HomeState extends State<Home> {
       }
     });
   }
-
+  
   @override
   Widget build(BuildContext context) {
     if(widget.feedItems.isNotEmpty) {
       return ListView.builder(itemCount: widget.feedItems.length, controller: scroll, itemBuilder: (c, i) {
         return Column(
           children: [
-            widget.feedItems[i]['image'].runtimeType == String
-                ? Image.network(widget.feedItems[i]['image'])
-                : Image.file(widget.feedItems[i]['image'], height: 400, width: double.infinity, fit: BoxFit.cover),
+            widget.feedItems[i]['image'].runtimeType == String 
+            ? Image.network(widget.feedItems[i]['image'])
+            : Image.file(widget.feedItems[i]['image'], height: 400, width: double.infinity, fit: BoxFit.cover),
 
             Container(
               padding: EdgeInsets.all(20),
@@ -216,10 +216,10 @@ class _HomeState extends State<Home> {
                     child: Text('글쓴이 : ${widget.feedItems[i]['user']}'),
                     onTap: () {
                       Navigator.push(context,
-                          PageRouteBuilder(pageBuilder: (context, a1, a2) => Profile(),
-                              transitionsBuilder: (context, a1, a2, child) => FadeTransition(opacity: a1, child: child),
-                              transitionDuration: Duration(milliseconds: 1000)
-                          )
+                        PageRouteBuilder(pageBuilder: (context, a1, a2) => Profile(),
+                          transitionsBuilder: (context, a1, a2, child) => FadeTransition(opacity: a1, child: child),
+                          transitionDuration: Duration(milliseconds: 1000)
+                        )
                       );
                     },
                   ),
@@ -311,11 +311,11 @@ class Profile extends StatelessWidget {
             child: ProfileHeader(),
           ),
           SliverGrid(
-              delegate: SliverChildBuilderDelegate(
-                      (c, i) => Image.network(context.watch<Store1>().profileImage[i], fit: BoxFit.fill),
-                  childCount: context.watch<Store1>().profileImage.length
-              ),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 5, crossAxisSpacing: 5)
+            delegate: SliverChildBuilderDelegate(
+              (c, i) => Image.network(context.watch<Store1>().profileImage[i], fit: BoxFit.fill),
+              childCount: context.watch<Store1>().profileImage.length
+            ), 
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 5, crossAxisSpacing: 5)
           )
         ],
       ),

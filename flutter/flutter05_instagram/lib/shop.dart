@@ -1,95 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-/*
-  - where() 사용법
-  사용 방법
-  ------------------------------------------------------------------
-  isEqualTo : value                       | 같다
-  isGreaterThan : value                   | 크다
-  isGreaterThanOrEqualTo : value          | 크거나 같다
-  isLessThan : value                      | 작다
-  isLessThanOrEqualTo : value             | 작거나 같다
-  arrayContains : value(List 항목이어야 됨) | 포함
-  arrayContainsAny : [...]                | 배열 중 하나라도 포함
-  where('field', whereIn: [...])          | 여러 값 중 하나       
-  where('field', whereNotIn: [...])       | 여러 값 제외
- */
-final firestore = FirebaseFirestore.instance;
 
-class Shop extends StatefulWidget {
+class Shop extends StatelessWidget {
   const Shop({super.key});
 
   @override
-  State<Shop> createState() => _ShopState();
-}
-
-class _ShopState extends State<Shop> {
-  @override
-  void initState() {
-    super.initState();
-    getData();
-    // setData();
-  }
-/*
-  getData() async {
-    var result = await firestore.collection('product')
-                                        .doc('pE2fmiYrBxaBSg0GfJf8')
-                                        .get();
-    print('결과 : $result');
-    print('가격 :${result['price']}');
-
-    // 컬렉션에 있는 모든 데이터 가져오기
-    var result2 = await firestore.collection('product').get();
-    // for(var doc in result2.docs) {
-    //   print(doc['name']);
-    // }
-
-    // 서버가 안되거나 하는 경우 대비 (문서가 비어있지 않을 때만 for문 동작)
-    if(result2.docs.isNotEmpty) {
-      for(var doc in result2.docs) {
-        print(doc['name']);
-      }
-   }
-*/
-  /*
-  // try 예외
-  getData() async {
-    try {
-      var result2 = await firestore.collection('product').get();
-       for(var doc in result2.docs) {
-         print(doc['name']);
-       }
-    } catch(e) {
-      print('서버 오류');
-    }
-  }
-*/
-
-  // firebase에 저장
-  setData() async {
-    await firestore.collection('product')
-                    .add({'name:':'블라우스', 'price':'30000'});
-
-  }
-
-  getData() async {
-    try { // 가격이 23000원 보다 큰 것
-      var result3 = await firestore.collection('product')
-                                   .where('price', isGreaterThan: 23000)
-                                   .get();
-      for (var pro1 in result3.docs) {
-        print(pro1['name']);
-        print(pro1['price']);
-      }
-
-    }
-    catch(e) {
-      print('서버 오류');
-    }
-  }
-
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container(
+      child: Text('shop page'),
+    );
   }
 }

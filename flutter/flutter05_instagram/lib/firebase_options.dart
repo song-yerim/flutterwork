@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAjLEPh6xx4F4fhWANrimCnqwIjmGl3b9A',
-    appId: '1:406212503168:android:4a3ce7712c8470181b2865',
-    messagingSenderId: '406212503168',
-    projectId: 'flutter-instagram-4575a',
-    storageBucket: 'flutter-instagram-4575a.firebasestorage.app',
+    apiKey: 'AIzaSyArsLo8s7f3XzVBAHqZaF8rkpkX8i_pHPM',
+    appId: '1:924903019422:android:42de625b3a2930dca57c8f',
+    messagingSenderId: '924903019422',
+    projectId: 'flutter-instagram-f1cf5',
+    storageBucket: 'flutter-instagram-f1cf5.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDGn23v3giJMylues76cihm5U4d8EYqWmU',
-    appId: '1:406212503168:ios:698e0390aa52878a1b2865',
-    messagingSenderId: '406212503168',
-    projectId: 'flutter-instagram-4575a',
-    storageBucket: 'flutter-instagram-4575a.firebasestorage.app',
+    apiKey: 'AIzaSyC11g1xi47k_UEcHhPFUsL2P_k5weXfmow',
+    appId: '1:924903019422:ios:aab3c276a135ec59a57c8f',
+    messagingSenderId: '924903019422',
+    projectId: 'flutter-instagram-f1cf5',
+    storageBucket: 'flutter-instagram-f1cf5.firebasestorage.app',
     iosBundleId: 'com.study.flutter05Instagram',
   );
 }
